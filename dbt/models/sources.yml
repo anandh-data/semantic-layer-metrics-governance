@@ -1,0 +1,30 @@
+version: 2
+sources:
+  - name: raw
+    schema: raw
+    loaded_at_field: source_updated_at
+    tables:
+      - name: orders
+        columns:
+          - name: order_id
+            tests: [not_null, unique]
+      - name: escrow_events
+        columns:
+          - name: event_id
+            tests: [not_null, unique]
+          - name: order_id
+            tests:
+              - relationships:
+                  arguments:
+                    to: source('raw', 'orders')
+                    field: order_id
+      - name: finance_transactions
+        columns:
+          - name: transaction_id
+            tests: [not_null, unique]
+          - name: order_id
+            tests:
+              - relationships:
+                  arguments:
+                    to: source('raw', 'orders')
+                    field: order_id

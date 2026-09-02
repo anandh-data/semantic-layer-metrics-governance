@@ -1,0 +1,17 @@
+{
+  "run_id": "6099c05a-c9b1-4be3-9694-6556578b2d1a",
+  "status": "passed",
+  "git_sha": "e08bc21",
+  "dataset_version": "1.0.0",
+  "records": {
+    "orders": 50000,
+    "escrow_events": 129171,
+    "finance_transactions": 39484
+  },
+  "quality_checks": 9,
+  "quality_failures": 0,
+  "metric_evaluations": 3,
+  "drifted_metrics": 2,
+  "started_at": "2026-09-02T23:51:45.271394+00:00",
+  "completed_at": "2026-09-02T23:51:52.250957+00:00"
+}

@@ -1,0 +1,26 @@
+{
+  "dataset": "governed-metrics-domain",
+  "version": "1.0.0",
+  "seed": 2026,
+  "order_rows": 50000,
+  "files": {
+    "orders": {
+      "path": "orders.parquet",
+      "rows": 50000,
+      "bytes": 999693,
+      "sha256": "fdf27c773f19633887f0233b0e30dfc0bcb16b0df621f051072c45ea56369bee"
+    },
+    "escrow_events": {
+      "path": "escrow_events.parquet",
+      "rows": 129171,
+      "bytes": 1337819,
+      "sha256": "a27984e40b1837139279a859571b6a3ed7e6bd0ef4ecd603906972b083ca7fd2"
+    },
+    "finance_transactions": {
+      "path": "finance_transactions.parquet",
+      "rows": 39484,
+      "bytes": 879331,
+      "sha256": "94ba2437b19edb19271ffc1ebe2312c6a676b0275906d858f443b1899bee5092"
+    }
+  }
+}

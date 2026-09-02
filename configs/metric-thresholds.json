@@ -1,0 +1,6 @@
+{
+  "default": {"relative_tolerance": 0.001, "absolute_tolerance": 1.0},
+  "net_revenue": {"relative_tolerance": 0.0001, "absolute_tolerance": 10.0},
+  "closed_orders": {"relative_tolerance": 0.0, "absolute_tolerance": 0.0},
+  "average_turnaround_days": {"relative_tolerance": 0.005, "absolute_tolerance": 0.1}
+}

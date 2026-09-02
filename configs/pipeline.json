@@ -1,0 +1,6 @@
+{
+  "dataset": {"rows": 50000, "seed": 2026, "version": "1.0.0"},
+  "warehouse": {"host": "127.0.0.1", "port": 55432, "database": "metrics"},
+  "quality": {"fail_on_source_error": true, "fail_on_governed_model_error": true},
+  "artifacts": {"commit_raw_parquet": true, "commit_processed_parquet": true, "sanitize_logs": true}
+}

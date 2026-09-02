@@ -1,0 +1,31 @@
+{
+  "evaluations": [
+    {
+      "metric_name": "net_revenue",
+      "team_name": "finance",
+      "governed_value": 114211972.92,
+      "reported_value": 114211972.92,
+      "absolute_delta": 0.0,
+      "relative_delta": 0.0,
+      "status": "certified"
+    },
+    {
+      "metric_name": "net_revenue",
+      "team_name": "operations",
+      "governed_value": 114211972.92,
+      "reported_value": 131715779.43147,
+      "absolute_delta": 17503806.51147,
+      "relative_delta": 0.1532571941799007,
+      "status": "drifted"
+    },
+    {
+      "metric_name": "net_revenue",
+      "team_name": "commercial",
+      "governed_value": 114211972.92,
+      "reported_value": 161985299.691735,
+      "absolute_delta": 47773326.771735,
+      "relative_delta": 0.4182865031602065,
+      "status": "drifted"
+    }
+  ]
+}

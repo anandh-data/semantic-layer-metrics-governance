@@ -1,0 +1,52 @@
+23:51:49  Running with dbt=1.11.7
+23:51:49  Registered adapter: postgres=1.10.0
+23:51:50  Found 6 models, 15 data tests, 3 sources, 464 macros
+23:51:50  
+23:51:50  Concurrency: 4 threads (target='dev')
+23:51:50  
+23:51:50  4 of 20 START test source_relationships_raw_escrow_events_order_id__order_id__source_raw_orders_  [RUN]
+23:51:50  2 of 20 START test source_not_null_raw_finance_transactions_transaction_id ..... [RUN]
+23:51:50  1 of 20 START test source_not_null_raw_escrow_events_event_id .................. [RUN]
+23:51:50  3 of 20 START test source_not_null_raw_orders_order_id ......................... [RUN]
+23:51:50  3 of 20 PASS source_not_null_raw_orders_order_id ............................... [PASS in 0.04s]
+23:51:50  5 of 20 START test source_relationships_raw_finance_transactions_order_id__order_id__source_raw_orders_  [RUN]
+23:51:50  1 of 20 PASS source_not_null_raw_escrow_events_event_id ........................ [PASS in 0.04s]
+23:51:50  2 of 20 PASS source_not_null_raw_finance_transactions_transaction_id ........... [PASS in 0.04s]
+23:51:50  6 of 20 START test source_unique_raw_escrow_events_event_id .................... [RUN]
+23:51:50  7 of 20 START test source_unique_raw_finance_transactions_transaction_id ....... [RUN]
+23:51:50  4 of 20 PASS source_relationships_raw_escrow_events_order_id__order_id__source_raw_orders_  [PASS in 0.06s]
+23:51:50  8 of 20 START test source_unique_raw_orders_order_id ........................... [RUN]
+23:51:50  7 of 20 PASS source_unique_raw_finance_transactions_transaction_id ............. [PASS in 0.03s]
+23:51:50  9 of 20 START sql view model analytics.stg_finance_transactions ................ [RUN]
+23:51:50  5 of 20 PASS source_relationships_raw_finance_transactions_order_id__order_id__source_raw_orders_  [PASS in 0.06s]
+23:51:50  6 of 20 PASS source_unique_raw_escrow_events_event_id .......................... [PASS in 0.06s]
+23:51:50  8 of 20 PASS source_unique_raw_orders_order_id ................................. [PASS in 0.04s]
+23:51:50  10 of 20 START sql view model analytics.stg_escrow_events ...................... [RUN]
+23:51:50  11 of 20 START sql view model analytics.stg_orders ............................. [RUN]
+23:51:50  9 of 20 OK created sql view model analytics.stg_finance_transactions ........... [CREATE VIEW in 0.07s]
+23:51:50  11 of 20 OK created sql view model analytics.stg_orders ........................ [CREATE VIEW in 0.05s]
+23:51:50  10 of 20 OK created sql view model analytics.stg_escrow_events ................. [CREATE VIEW in 0.05s]
+23:51:50  12 of 20 START test accepted_values_stg_orders_region__NORTHEAST__SOUTHEAST__MIDWEST__WEST  [RUN]
+23:51:50  14 of 20 START test not_null_stg_orders_order_id ............................... [RUN]
+23:51:50  13 of 20 START test accepted_values_stg_orders_status__open__closed__cancelled . [RUN]
+23:51:50  15 of 20 START test unique_stg_orders_order_id ................................. [RUN]
+23:51:50  14 of 20 PASS not_null_stg_orders_order_id ..................................... [PASS in 0.03s]
+23:51:50  13 of 20 PASS accepted_values_stg_orders_status__open__closed__cancelled ....... [PASS in 0.04s]
+23:51:50  15 of 20 PASS unique_stg_orders_order_id ....................................... [PASS in 0.03s]
+23:51:50  12 of 20 PASS accepted_values_stg_orders_region__NORTHEAST__SOUTHEAST__MIDWEST__WEST  [PASS in 0.04s]
+23:51:50  16 of 20 START sql table model analytics.fct_order_performance ................. [RUN]
+23:51:50  16 of 20 OK created sql table model analytics.fct_order_performance ............ [SELECT 50000 in 0.24s]
+23:51:50  17 of 20 START test assert_nonnegative_turnaround .............................. [RUN]
+23:51:50  18 of 20 START test not_null_fct_order_performance_order_id .................... [RUN]
+23:51:50  19 of 20 START test unique_fct_order_performance_order_id ...................... [RUN]
+23:51:50  18 of 20 PASS not_null_fct_order_performance_order_id .......................... [PASS in 0.02s]
+23:51:50  17 of 20 PASS assert_nonnegative_turnaround .................................... [PASS in 0.03s]
+23:51:50  19 of 20 PASS unique_fct_order_performance_order_id ............................ [PASS in 0.04s]
+23:51:50  20 of 20 START sql table model analytics.metric_daily_performance .............. [RUN]
+23:51:50  20 of 20 OK created sql table model analytics.metric_daily_performance ......... [SELECT 3198 in 0.04s]
+23:51:50  
+23:51:50  Finished running 2 table models, 15 data tests, 3 view models in 0 hours 0 minutes and 0.65 seconds (0.65s).
+23:51:50  
+23:51:50  Completed successfully
+23:51:50  
+23:51:50  Done. PASS=20 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=20

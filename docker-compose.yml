@@ -5,7 +5,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-metrics}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-metrics_local_only}
       POSTGRES_DB: ${POSTGRES_DB:-metrics}
-    ports: ["5432:5432"]
+    ports: ["55432:5432"]
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./infra/postgres/init.sql:/docker-entrypoint-initdb.d/001-init.sql:ro
@@ -14,5 +14,23 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+  pipeline:
+    build: .
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: ${POSTGRES_USER:-metrics}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-metrics_local_only}
+      POSTGRES_DB: ${POSTGRES_DB:-metrics}
+      GIT_SHA: ${GIT_SHA:-container-build}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./reports:/app/reports
+      - ./dashboard:/app/dashboard
+      - ./screenshots:/app/screenshots
 volumes:
   postgres_data:

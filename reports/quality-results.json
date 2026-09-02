@@ -1,0 +1,67 @@
+{
+  "checks": [
+    {
+      "dataset": "orders",
+      "check": "row_count",
+      "status": "pass",
+      "observed": 50000,
+      "expectation": "> 0"
+    },
+    {
+      "dataset": "orders",
+      "check": "unique_order_id",
+      "status": "pass",
+      "observed": 50000,
+      "expectation": "= 50000"
+    },
+    {
+      "dataset": "orders",
+      "check": "valid_status",
+      "status": "pass",
+      "observed": 0,
+      "expectation": "0 invalid"
+    },
+    {
+      "dataset": "orders",
+      "check": "nonnegative_order_value",
+      "status": "pass",
+      "observed": 26188.59,
+      "expectation": ">= 0"
+    },
+    {
+      "dataset": "escrow_events",
+      "check": "unique_event_id",
+      "status": "pass",
+      "observed": 129171,
+      "expectation": "= 129171"
+    },
+    {
+      "dataset": "escrow_events",
+      "check": "known_order",
+      "status": "pass",
+      "observed": 0,
+      "expectation": "0 orphaned"
+    },
+    {
+      "dataset": "finance_transactions",
+      "check": "unique_transaction_id",
+      "status": "pass",
+      "observed": 39484,
+      "expectation": "= 39484"
+    },
+    {
+      "dataset": "finance_transactions",
+      "check": "known_order",
+      "status": "pass",
+      "observed": 0,
+      "expectation": "0 orphaned"
+    },
+    {
+      "dataset": "finance_transactions",
+      "check": "usd_only",
+      "status": "pass",
+      "observed": 0,
+      "expectation": "0 non-USD"
+    }
+  ]
+}

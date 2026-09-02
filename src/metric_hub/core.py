@@ -18,6 +18,8 @@ class Metric:
     version: int
     expression: str
     description: str
+    grain: str = "global"
+    effective_from: str = "2024-01-01"
 
 
 def load_registry(path: str | Path) -> dict[str, Metric]:

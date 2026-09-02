@@ -5,16 +5,30 @@
       "label": "Net Revenue",
       "owner": "finance-analytics",
       "version": 1,
+      "grain": "metric_date, region",
+      "effective_from": "2024-01-01",
       "expression": "gross_sales - refunds",
-      "description": "Recognized gross sales less completed refunds. Tax is excluded upstream."
+      "description": "Recognized revenue transactions plus posted refund transactions for canonically closed orders."
     },
     {
-      "name": "average_order_value",
-      "label": "Average Order Value",
-      "owner": "commercial-analytics",
+      "name": "closed_orders",
+      "label": "Closed Orders",
+      "owner": "operations-analytics",
       "version": 1,
-      "expression": "(gross_sales - refunds) / orders",
-      "description": "Net revenue divided by completed order count."
+      "grain": "metric_date, region",
+      "effective_from": "2024-01-01",
+      "expression": "closed_orders",
+      "description": "Count of orders whose canonical lifecycle status is closed, attributed to closed date."
+    },
+    {
+      "name": "average_turnaround_days",
+      "label": "Average Turnaround Days",
+      "owner": "escrow-operations",
+      "version": 1,
+      "grain": "metric_date, region",
+      "effective_from": "2024-01-01",
+      "expression": "turnaround_days / closed_orders",
+      "description": "Average calendar days from opened date to closed date; excludes open and cancelled orders."
     }
   ]
 }

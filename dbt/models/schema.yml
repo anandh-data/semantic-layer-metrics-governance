@@ -8,11 +8,13 @@ models:
       - name: status
         tests:
           - accepted_values:
-              values: [open, closed, cancelled]
+              arguments:
+                values: [open, closed, cancelled]
       - name: region
         tests:
           - accepted_values:
-              values: [NORTHEAST, SOUTHEAST, MIDWEST, WEST]
+              arguments:
+                values: [NORTHEAST, SOUTHEAST, MIDWEST, WEST]
   - name: fct_order_performance
     description: One row per order with governed lifecycle and recognized-revenue fields.
     columns:
