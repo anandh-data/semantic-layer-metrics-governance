@@ -1,0 +1,20 @@
+{
+  "metrics": [
+    {
+      "name": "net_revenue",
+      "label": "Net Revenue",
+      "owner": "finance-analytics",
+      "version": 1,
+      "expression": "gross_sales - refunds",
+      "description": "Recognized gross sales less completed refunds. Tax is excluded upstream."
+    },
+    {
+      "name": "average_order_value",
+      "label": "Average Order Value",
+      "owner": "commercial-analytics",
+      "version": 1,
+      "expression": "(gross_sales - refunds) / orders",
+      "description": "Net revenue divided by completed order count."
+    }
+  ]
+}

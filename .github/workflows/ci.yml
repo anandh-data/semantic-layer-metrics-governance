@@ -1,0 +1,12 @@
+name: Metric governance gate
+on: [push, pull_request]
+jobs:
+  governance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: make test
+      - name: Demonstrate expected drift detection
+        run: make demo

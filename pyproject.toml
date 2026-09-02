@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "semantic-metric-governance"
+version = "0.1.0"
+description = "Versioned metric definitions and BI drift detection"
+requires-python = ">=3.11"
+[project.scripts]
+metric-hub = "metric_hub.cli:main"
+[tool.setuptools.packages.find]
+where = ["src"]
