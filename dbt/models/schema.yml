@@ -1,0 +1,22 @@
+version: 2
+models:
+  - name: stg_orders
+    description: Canonical, typed order records shared by operations and analytics.
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+      - name: status
+        tests:
+          - accepted_values:
+              values: [open, closed, cancelled]
+      - name: region
+        tests:
+          - accepted_values:
+              values: [NORTHEAST, SOUTHEAST, MIDWEST, WEST]
+  - name: fct_order_performance
+    description: One row per order with governed lifecycle and recognized-revenue fields.
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+  - name: metric_daily_performance
+    description: Governed daily metrics at date-region grain.

@@ -1,11 +1,7 @@
 # Architecture and governance workflow
 
-The version-controlled registry is the source of truth. A restricted expression evaluator computes metrics from aggregated facts; a BI export adapter supplies independently reported values; the comparator raises drift when absolute or relative tolerance is exceeded.
+The deterministic generator creates independently recorded orders, escrow events, and finance transactions. PostgreSQL holds raw records; dbt types, tests, joins, and publishes governed marts. The registry owns KPI definition, grain, owner, and version. The drift service compares independently exported BI results with governed values.
 
-In production, dbt/MetricFlow or Cube compiles definitions into warehouse SQL. Pull requests require an owner, version increment, description, and impact review. Power BI exports are checked on a schedule and alerts link back to the definition and owner.
+A pull request changing metric meaning must include impact analysis and owner approval. Additive definitions receive a minor release; corrections retain an audit note; grain or meaning changes create a new major definition. A dashboard remains uncertified while its reported result exceeds tolerance.
 
-## Change policy
-
-1. Additive metric: minor registry release.
-2. Corrected logic with same meaning: patch release and backfill note.
-3. Meaning or grain change: new metric name or major version; never silently overwrite history.
+The dependency-light evaluator keeps CI fast. PostgreSQL and dbt form the production-shaped execution route. A real BI adapter can replace the deterministic JSON export without changing governance behavior.

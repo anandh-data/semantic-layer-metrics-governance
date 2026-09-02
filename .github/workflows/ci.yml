@@ -1,5 +1,7 @@
 name: Metric governance gate
 on: [push, pull_request]
+permissions:
+  contents: read
 jobs:
   governance:
     runs-on: ubuntu-latest
@@ -8,5 +10,6 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
       - run: make test
+      - run: python3 data_generator/generate.py --output /tmp/governed-seeds --rows 1000 --seed 2026
       - name: Demonstrate expected drift detection
         run: make demo

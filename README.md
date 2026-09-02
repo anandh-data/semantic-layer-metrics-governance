@@ -2,34 +2,93 @@
 
 [![CI](https://github.com/anandh-analytics/semantic-metric-governance/actions/workflows/ci.yml/badge.svg)](https://github.com/anandh-analytics/semantic-metric-governance/actions)
 
-A governed KPI registry plus an executable drift gate for the recurring business problem: **Finance and Marketing report different revenue from the same company data.**
+An executable governance platform for preventing Finance, Operations, and BI teams from publishing different answers for the same KPI.
 
-## Demo
+## Business problem
+
+Teams often calculate “revenue,” “closed orders,” and “turnaround time” with different filters or grains. The disagreement is usually discovered in a leadership meeting, after decisions and reports have already used inconsistent numbers.
+
+## Solution
+
+This repository creates one version-controlled definition for each KPI, computes it through dbt, and compares independently reported BI values against the governed result. Drift fails the certification gate and links the result to a named owner and metric version.
+
+## Data selection
+
+Purpose-built synthetic data models a fictional orders, escrow, and finance organization. It is appropriate because metric disagreement is an organizational rules problem—not a public-data exploration problem. The generator creates safe, deterministic records at configurable scale; no employer or customer data is used.
+
+## Architecture
+
+```mermaid
+flowchart LR
+  G[Deterministic generator] --> S[PostgreSQL raw seeds]
+  S --> D[dbt staging and marts]
+  R[Versioned metric registry] --> E[Metric evaluator]
+  D --> E
+  B[BI reported values] --> C[Drift comparator]
+  E --> C
+  C -->|pass| P[Certified KPI]
+  C -->|fail| I[Owner incident]
+```
+
+## Repository map
+
+| Path | Responsibility |
+|---|---|
+| `data_generator/` | Reproducible orders, escrow, and finance records |
+| `dbt/` | Staging, intermediate, marts, tests, and documentation |
+| `registry/metrics.json` | KPI meaning, formula, owner, and version |
+| `src/metric_hub/` | Safe evaluation and BI drift gate |
+| `infra/postgres/` | Database bootstrap and governance audit schema |
+| `tests/` | Unit and integration test boundaries |
+| `docs/` | Data dictionary, ADRs, architecture, and incident runbooks |
+
+## Quick verification (no Docker)
 
 ```bash
 make test
 make demo
 ```
 
-The included BI extract deliberately reports gross sales as net revenue. The command prints the governed value, reported value, delta, and a drift flag, then exits non-zero. `make demo` treats that expected detection as success.
+The demo intentionally supplies a wrong BI value. A correct gate detects the drift and exits non-zero; the Make target treats that expected failure as success.
 
-## Design
+## Full local stack
 
-- `registry/metrics.json`: definitions, owners, versions, and business meaning
-- `src/metric_hub`: safe expression evaluation, source aggregation, drift comparison
-- `sample_data`: reproducible facts and an intentionally incorrect BI export
-- `docs/architecture.md`: release rules and production evolution
+Prerequisites: Docker Compose, Python 3.11+, and GNU Make.
 
-## Why a registry instead of dashboard-local DAX?
+```bash
+cp .env.example .env
+make generate
+make stack-up
+python3 -m pip install -r requirements-dev.txt
+make dbt-build
+```
 
-Central definitions are reviewable, versioned, testable, and reusable. Dashboard-local formulas optimize for convenience but create invisible forks. The local evaluator makes the concept runnable without a warehouse; dbt Semantic Layer/MetricFlow is the documented production adapter.
+Never commit `.env`. Replace local credentials before any shared deployment.
 
-## Interview discussion points
+## Governed metrics
 
-- Metric ownership and change approval across Finance, Marketing, and Operations
-- Backward compatibility when definition meaning or grain changes
-- Relative versus absolute drift thresholds
-- Why a semantic layer complements rather than replaces BI tooling
+| Metric | Definition | Owner |
+|---|---|---|
+| Net revenue | Recognized finance transactions for closed orders | Finance Analytics |
+| Closed orders | Orders whose canonical lifecycle status is closed | Operations Analytics |
+| Average turnaround | Calendar days from open to close; excludes open/cancelled orders | Escrow Operations |
+
+## Quality gates
+
+- Unique/non-null business keys
+- Accepted status and region domains
+- Nonnegative turnaround time
+- Registry uniqueness and safe expression parsing
+- Relative and absolute BI drift tolerance
+- Pull-request unit tests through GitHub Actions
+
+## Operational workflow
+
+Metric changes require an owner, definition, grain, version, rationale, and compatibility decision. Meaning or grain changes create a new major definition rather than rewriting history. See [metric drift runbook](docs/runbooks/metric-drift.md) and [data dictionary](docs/data-dictionary.md).
+
+## Honest deployment boundary
+
+The repository contains production-shaped code and infrastructure definitions. Running the Docker/dbt workflow creates a local environment; it does not claim a live enterprise deployment or a Power BI tenant connection. The BI adapter is represented by a deterministic export contract so CI remains free and reproducible.
 
 ## License
 
