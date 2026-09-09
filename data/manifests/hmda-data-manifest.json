@@ -1,0 +1,27 @@
+{
+  "dataset": "CFPB HMDA 2017 nationwide all-records coded file",
+  "source_url": "https://files.consumerfinance.gov/hmda-historic-loan-data/hmda_2017_nationwide_all-records_codes.zip",
+  "source_records": 14285496,
+  "records_selected": 2800000,
+  "selection": "2,800,000-row deterministic systematic sample across all published rows",
+  "source_sha256": "cb3fe691b842fe66490825667afd03edb46f557c80eb06e0f418d538a8e22dd2",
+  "parquet_sha256": "947f170601498ba19dd616215ed335e0e3e1997ef13bb75a9a42b00eace5cf39",
+  "columns": [
+    "as_of_year",
+    "respondent_id",
+    "agency_code",
+    "loan_type",
+    "loan_purpose",
+    "loan_amount_000s",
+    "preapproval",
+    "action_taken",
+    "state_code",
+    "county_code",
+    "applicant_ethnicity",
+    "applicant_race_1",
+    "applicant_sex",
+    "applicant_income_000s",
+    "purchaser_type"
+  ],
+  "created_at": "2026-09-09T06:34:58.835803+00:00"
+}

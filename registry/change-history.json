@@ -1,0 +1,5 @@
+{"changes":[
+{"change_id":"MET-001","metric":"denial_rate","from_version":1,"to_version":2,"reason":"Removed non-decisions and purchased loans from the denominator.","approved_at":"2025-02-01"},
+{"change_id":"MET-002","metric":"net_revenue","from_version":1,"to_version":2,"reason":"Replaced the order-value estimate with posted finance transactions.","approved_at":"2025-02-01"},
+{"change_id":"MET-003","metric":"close_rate","from_version":1,"to_version":2,"reason":"Restored cancelled orders to the all-order denominator.","approved_at":"2025-02-01"}
+]}

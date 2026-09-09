@@ -1,0 +1,181 @@
+{
+  "measures_compared": 25,
+  "matched_after_correction": 25,
+  "legacy_conflicts_resolved": 3,
+  "denial_rate_relative_understatement": 0.31675821428571427,
+  "comparisons": [
+    {
+      "metric_name": "applications_decided",
+      "dbt_value": 1913077.0,
+      "corrected_dax_value": 1913077.0,
+      "status": "matched"
+    },
+    {
+      "metric_name": "approved_not_accepted",
+      "dbt_value": 80340.0,
+      "corrected_dax_value": 80340.0,
+      "status": "matched"
+    },
+    {
+      "metric_name": "average_applicant_income_000s",
+      "dbt_value": 113.05032157650722,
+      "corrected_dax_value": 113.05032157650722,
+      "status": "matched"
+    },
+    {
+      "metric_name": "average_loan_amount_000s",
+      "dbt_value": 248.88572884188653,
+      "corrected_dax_value": 248.88572884188653,
+      "status": "matched"
+    },
+    {
+      "metric_name": "average_order_value",
+      "dbt_value": 536478.4382026,
+      "corrected_dax_value": 536478.4382026,
+      "status": "matched"
+    },
+    {
+      "metric_name": "cancellation_rate",
+      "dbt_value": 0.07102,
+      "corrected_dax_value": 0.07102,
+      "status": "matched"
+    },
+    {
+      "metric_name": "close_rate",
+      "dbt_value": 0.7562,
+      "corrected_dax_value": 0.7562,
+      "status": "matched"
+    },
+    {
+      "metric_name": "closed_order_value",
+      "dbt_value": 20263966066.38,
+      "corrected_dax_value": 20263966066.38,
+      "status": "matched"
+    },
+    {
+      "metric_name": "closed_orders",
+      "dbt_value": 37810.0,
+      "corrected_dax_value": 37810.0,
+      "status": "matched"
+    },
+    {
+      "metric_name": "conventional_share",
+      "dbt_value": 0.696425,
+      "corrected_dax_value": 0.696425,
+      "status": "matched"
+    },
+    {
+      "metric_name": "denial_rate",
+      "dbt_value": 0.20576484898412348,
+      "corrected_dax_value": 0.20576484898412348,
+      "status": "matched"
+    },
+    {
+      "metric_name": "denied_applications",
+      "dbt_value": 393644.0,
+      "corrected_dax_value": 393644.0,
+      "status": "matched"
+    },
+    {
+      "metric_name": "fha_share",
+      "dbt_value": 0.18612392857142857,
+      "corrected_dax_value": 0.18612392857142857,
+      "status": "matched"
+    },
+    {
+      "metric_name": "hmda_records",
+      "dbt_value": 2800000.0,
+      "corrected_dax_value": 2800000.0,
+      "status": "matched"
+    },
+    {
+      "metric_name": "home_purchase_share",
+      "dbt_value": 0.5395357142857143,
+      "corrected_dax_value": 0.5395357142857143,
+      "status": "matched"
+    },
+    {
+      "metric_name": "incomplete_applications",
+      "dbt_value": 117354.0,
+      "corrected_dax_value": 117354.0,
+      "status": "matched"
+    },
+    {
+      "metric_name": "median_loan_amount_000s",
+      "dbt_value": 185.0,
+      "corrected_dax_value": 185.0,
+      "status": "matched"
+    },
+    {
+      "metric_name": "net_revenue",
+      "dbt_value": 114211972.92,
+      "corrected_dax_value": 114211972.92,
+      "status": "matched"
+    },
+    {
+      "metric_name": "open_orders",
+      "dbt_value": 8639.0,
+      "corrected_dax_value": 8639.0,
+      "status": "matched"
+    },
+    {
+      "metric_name": "order_count",
+      "dbt_value": 50000.0,
+      "corrected_dax_value": 50000.0,
+      "status": "matched"
+    },
+    {
+      "metric_name": "originated_loans",
+      "dbt_value": 1439093.0,
+      "corrected_dax_value": 1439093.0,
+      "status": "matched"
+    },
+    {
+      "metric_name": "origination_rate",
+      "dbt_value": 0.7522399777949346,
+      "corrected_dax_value": 0.7522399777949346,
+      "status": "matched"
+    },
+    {
+      "metric_name": "refinance_share",
+      "dbt_value": 0.38413964285714286,
+      "corrected_dax_value": 0.38413964285714286,
+      "status": "matched"
+    },
+    {
+      "metric_name": "va_share",
+      "dbt_value": 0.09829285714285714,
+      "corrected_dax_value": 0.09829285714285714,
+      "status": "matched"
+    },
+    {
+      "metric_name": "withdrawn_applications",
+      "dbt_value": 332420.0,
+      "corrected_dax_value": 332420.0,
+      "status": "matched"
+    }
+  ],
+  "legacy_conflicts": [
+    {
+      "metric_name": "denial_rate",
+      "legacy_dax_value": 0.14058714285714285,
+      "governed_dbt_value": 0.20576484898412348,
+      "relative_difference": -0.31675821428571427,
+      "resolution": "replaced legacy DAX with governed definition"
+    },
+    {
+      "metric_name": "net_revenue",
+      "legacy_dax_value": 131715779.43147,
+      "governed_dbt_value": 114211972.92,
+      "relative_difference": 0.15325719417990075,
+      "resolution": "replaced legacy DAX with governed definition"
+    },
+    {
+      "metric_name": "close_rate",
+      "legacy_dax_value": 0.8140110659002346,
+      "governed_dbt_value": 0.7562,
+      "relative_difference": 0.07644943916984219,
+      "resolution": "replaced legacy DAX with governed definition"
+    }
+  ]
+}

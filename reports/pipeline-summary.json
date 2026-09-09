@@ -1,17 +1,22 @@
 {
-  "run_id": "6099c05a-c9b1-4be3-9694-6556578b2d1a",
+  "run_id": "47561cb9-cda1-4c14-819e-a07d12415a26",
   "status": "passed",
-  "git_sha": "e08bc21",
+  "git_sha": "70fa6f4",
   "dataset_version": "1.0.0",
   "records": {
     "orders": 50000,
     "escrow_events": 129171,
-    "finance_transactions": 39484
+    "finance_transactions": 39484,
+    "hmda_applications": 2800000
   },
-  "quality_checks": 9,
+  "quality_checks": 15,
   "quality_failures": 0,
   "metric_evaluations": 3,
   "drifted_metrics": 2,
-  "started_at": "2026-09-02T23:51:45.271394+00:00",
-  "completed_at": "2026-09-02T23:51:52.250957+00:00"
+  "governed_metrics": 25,
+  "dax_measures_compared": 25,
+  "legacy_conflicts_resolved": 3,
+  "denial_rate_relative_understatement": 0.31675821428571427,
+  "started_at": "2026-09-09T06:39:33.242174+00:00",
+  "completed_at": "2026-09-09T06:40:04.322534+00:00"
 }

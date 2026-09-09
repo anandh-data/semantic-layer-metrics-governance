@@ -17,7 +17,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from metric_hub.config import Settings
-from metric_hub.database import execute_sql_file, fetch_rows, ingest_parquet, reset_raw_tables
+from metric_hub.database import execute_sql_file, fetch_rows, ingest_parquet, ingest_parquet_batches, reset_raw_tables
+from metric_hub.reconciliation import build_reconciliation_report
 from metric_hub.drift import evaluate_rows, write_drift
 from metric_hub.generator import generate_dataset
 from metric_hub.logging_utils import build_logger, log_event
@@ -81,11 +82,18 @@ def run(rows: int, seed: int) -> dict[str, object]:
             "escrow_events": ingest_parquet(settings.dsn, "escrow_events", dataset.escrow_events, logger),
             "finance_transactions": ingest_parquet(settings.dsn, "finance_transactions", dataset.finance_transactions, logger),
         }
+        hmda_path = settings.raw_dir / "hmda_applications.parquet"
+        if not hmda_path.exists():
+            raise FileNotFoundError("HMDA Parquet is missing; run `make hmda` first")
+        counts["hmda_applications"] = ingest_parquet_batches(settings.dsn, "hmda_applications", hmda_path, logger)
         quality_columns, quality_rows = fetch_rows(settings.dsn, (ROOT / "sql/validation/source_quality.sql").read_text())
         failed_sql_checks = [dict(zip(quality_columns, row)) for row in quality_rows if row[1] != 0]
         if failed_sql_checks:
             raise RuntimeError(f"warehouse source checks failed: {failed_sql_checks}")
         run_dbt(settings)
+        metric_columns, metric_rows = fetch_rows(settings.dsn, "select * from analytics.metric_governance_portfolio order by metric_name")
+        metric_frame = pd.DataFrame(metric_rows, columns=metric_columns)
+        reconciliation = build_reconciliation_report(metric_frame, ROOT / "reports/dax-reconciliation-results.json")
         _, comparison_rows = fetch_rows(settings.dsn, (ROOT / "sql/marts/team_metric_comparison.sql").read_text())
         drift = evaluate_rows(comparison_rows, ROOT / "configs/metric-thresholds.json")
         write_drift(drift, ROOT / "reports/metric-drift-results.json")
@@ -101,6 +109,9 @@ def run(rows: int, seed: int) -> dict[str, object]:
             "run_id": run_id, "status": "passed", "git_sha": git_sha(), "dataset_version": "1.0.0",
             "records": counts, "quality_checks": len(checks), "quality_failures": 0,
             "metric_evaluations": len(drift), "drifted_metrics": sum(result.status == "drifted" for result in drift),
+            "governed_metrics": len(metric_frame), "dax_measures_compared": reconciliation["measures_compared"],
+            "legacy_conflicts_resolved": reconciliation["legacy_conflicts_resolved"],
+            "denial_rate_relative_understatement": reconciliation["denial_rate_relative_understatement"],
             "started_at": started.isoformat(), "completed_at": datetime.now(timezone.utc).isoformat(),
         }
         (ROOT / "reports/pipeline-summary.json").write_text(json.dumps(summary, indent=2) + "\n")

@@ -6,5 +6,7 @@ dbt/target/
 dbt/logs/
 dbt/.user.yml
 .local/
+data/external/
+data/raw/hmda_applications.parquet
 *.log
 !logs/*.log

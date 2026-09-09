@@ -1,0 +1,4 @@
+{"approval_policy":"Every published metric requires a named owner and Analytics Governance approval.","approvals":[
+{"metric_group":"mortgage-portfolio","metric_count":17,"owner":"mortgage-analytics","approved_by":"analytics-governance","approved_at":"2025-02-01","status":"approved"},
+{"metric_group":"title-escrow-finance","metric_count":8,"owner":"operations-and-finance-analytics","approved_by":"analytics-governance","approved_at":"2025-02-01","status":"approved"}
+]}

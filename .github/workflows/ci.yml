@@ -50,6 +50,13 @@ jobs:
           python-version: "3.13"
           cache: pip
       - run: pip install -r requirements-dev.txt
+      - uses: actions/cache@v4
+        with:
+          path: data/external/hmda_2017_nationwide_all_records_codes.zip
+          key: cfpb-hmda-2017-all-records-codes
+      - run: mkdir -p data/external
+      - run: test -f data/external/hmda_2017_nationwide_all_records_codes.zip || curl -L --fail --retry 3 -o data/external/hmda_2017_nationwide_all_records_codes.zip https://files.consumerfinance.gov/hmda-historic-loan-data/hmda_2017_nationwide_all-records_codes.zip
+      - run: PYTHONPATH=src python3 pipelines/prepare_hmda.py --rows 50000
       - run: PYTHONPATH=src python3 pipelines/run_pipeline.py --rows 5000 --seed 2026
       - run: make integration-test
       - uses: actions/upload-artifact@v4

@@ -1,0 +1,4 @@
+// Audit-only definitions replaced after reconciliation. Do not publish.
+Denial Rate (v1) = DIVIDE([Denied Applications], [HMDA Records])
+Close Rate (v1) = DIVIDE([Closed Orders], [Closed Orders] + [Open Orders])
+Net Revenue (v1) = [Closed Order Value] * 0.0065

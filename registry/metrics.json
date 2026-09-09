@@ -1,34 +1,27 @@
-{
-  "metrics": [
-    {
-      "name": "net_revenue",
-      "label": "Net Revenue",
-      "owner": "finance-analytics",
-      "version": 1,
-      "grain": "metric_date, region",
-      "effective_from": "2024-01-01",
-      "expression": "gross_sales - refunds",
-      "description": "Recognized revenue transactions plus posted refund transactions for canonically closed orders."
-    },
-    {
-      "name": "closed_orders",
-      "label": "Closed Orders",
-      "owner": "operations-analytics",
-      "version": 1,
-      "grain": "metric_date, region",
-      "effective_from": "2024-01-01",
-      "expression": "closed_orders",
-      "description": "Count of orders whose canonical lifecycle status is closed, attributed to closed date."
-    },
-    {
-      "name": "average_turnaround_days",
-      "label": "Average Turnaround Days",
-      "owner": "escrow-operations",
-      "version": 1,
-      "grain": "metric_date, region",
-      "effective_from": "2024-01-01",
-      "expression": "turnaround_days / closed_orders",
-      "description": "Average calendar days from opened date to closed date; excludes open and cancelled orders."
-    }
-  ]
-}
+{"metrics":[
+{"name":"hmda_records","label":"HMDA Records","owner":"mortgage-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"hmda_records","description":"Public HMDA records in the governed population."},
+{"name":"applications_decided","label":"Applications Decided","owner":"mortgage-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"originated_loans + approved_not_accepted + denied_applications","description":"Applications with an originated, approved-not-accepted, or denied outcome."},
+{"name":"originated_loans","label":"Originated Loans","owner":"mortgage-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"originated_loans","description":"Applications reported with action code 1."},
+{"name":"approved_not_accepted","label":"Approved Not Accepted","owner":"mortgage-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"approved_not_accepted","description":"Applications approved but not accepted."},
+{"name":"denied_applications","label":"Denied Applications","owner":"fair-lending-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"denied_applications","description":"Applications denied by the reporting institution."},
+{"name":"withdrawn_applications","label":"Withdrawn Applications","owner":"mortgage-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"withdrawn_applications","description":"Applications withdrawn by the applicant."},
+{"name":"incomplete_applications","label":"Incomplete Applications","owner":"mortgage-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"incomplete_applications","description":"Applications closed because the file was incomplete."},
+{"name":"denial_rate","label":"Denial Rate","owner":"fair-lending-analytics","version":2,"grain":"portfolio","effective_from":"2025-02-01","expression":"denied_applications / applications_decided","description":"Denied applications divided by decided applications."},
+{"name":"origination_rate","label":"Origination Rate","owner":"mortgage-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"originated_loans / applications_decided","description":"Originated loans divided by decided applications."},
+{"name":"average_loan_amount_000s","label":"Average Loan Amount ($000s)","owner":"mortgage-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"average_loan_amount_000s","description":"Average positive loan amount in thousands."},
+{"name":"median_loan_amount_000s","label":"Median Loan Amount ($000s)","owner":"mortgage-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"median_loan_amount_000s","description":"Median positive loan amount in thousands."},
+{"name":"average_applicant_income_000s","label":"Average Applicant Income ($000s)","owner":"fair-lending-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"average_applicant_income_000s","description":"Average positive applicant income in thousands."},
+{"name":"conventional_share","label":"Conventional Loan Share","owner":"mortgage-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"conventional_loans / hmda_records","description":"Share reported as conventional loans."},
+{"name":"fha_share","label":"FHA Loan Share","owner":"mortgage-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"fha_loans / hmda_records","description":"Share reported as FHA-insured loans."},
+{"name":"va_share","label":"VA Loan Share","owner":"mortgage-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"va_loans / hmda_records","description":"Share reported as VA-guaranteed loans."},
+{"name":"home_purchase_share","label":"Home Purchase Share","owner":"mortgage-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"home_purchase_records / hmda_records","description":"Share reported for home purchase."},
+{"name":"refinance_share","label":"Refinance Share","owner":"mortgage-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"refinance_records / hmda_records","description":"Share reported for refinancing."},
+{"name":"order_count","label":"Order Count","owner":"operations-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"order_count","description":"All title and escrow orders."},
+{"name":"closed_orders","label":"Closed Orders","owner":"operations-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"closed_orders","description":"Orders with a closed lifecycle status."},
+{"name":"open_orders","label":"Open Orders","owner":"operations-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"open_orders","description":"Orders with an open lifecycle status."},
+{"name":"cancellation_rate","label":"Cancellation Rate","owner":"operations-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"cancelled_orders / order_count","description":"Cancelled orders divided by all orders."},
+{"name":"close_rate","label":"Close Rate","owner":"operations-analytics","version":2,"grain":"portfolio","effective_from":"2025-02-01","expression":"closed_orders / order_count","description":"Closed orders divided by all orders."},
+{"name":"average_order_value","label":"Average Order Value","owner":"operations-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"order_value / order_count","description":"Average title and escrow order value."},
+{"name":"closed_order_value","label":"Closed Order Value","owner":"finance-analytics","version":1,"grain":"portfolio","effective_from":"2025-01-01","expression":"closed_order_value","description":"Order value for closed orders."},
+{"name":"net_revenue","label":"Net Revenue","owner":"finance-analytics","version":2,"grain":"portfolio","effective_from":"2025-02-01","expression":"recognized_revenue - refunds","description":"Posted recognized revenue and refunds."}
+]}

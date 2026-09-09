@@ -1,8 +1,8 @@
-# Semantic Layer & Metric Governance Hub
+# Semantic Layer & Metrics Governance
 
-[![CI](https://github.com/anandh-analytics/semantic-metric-governance/actions/workflows/ci.yml/badge.svg)](https://github.com/anandh-analytics/semantic-metric-governance/actions)
+[![CI](https://github.com/anandh-data/semantic-layer-metrics-governance/actions/workflows/ci.yml/badge.svg)](https://github.com/anandh-data/semantic-layer-metrics-governance/actions)
 
-An executed analytics-engineering project that prevents Finance, Operations, Commercial, and BI teams from publishing different answers under the same KPI name.
+An executed analytics-engineering project that keeps mortgage, title, escrow, finance, and Power BI reporting on the same metric definitions.
 
 ![Generated metric governance dashboard](screenshots/metric-governance-dashboard.png)
 
@@ -18,21 +18,29 @@ The committed run processed actual generated project data:
 
 | Result | Value |
 |---|---:|
+| Public CFPB HMDA records | 2,800,000 |
 | Orders | 50,000 |
 | Escrow events | 129,171 |
 | Finance transactions | 39,484 |
-| Raw quality checks | 9 passed, 0 failed |
-| dbt nodes/tests | 20 passed, 0 failed |
+| Total records processed | 3,018,655 |
+| Governed KPIs | 25 |
+| Source quality checks | 15 passed, 0 failed |
+| dbt nodes/tests | 27 passed, 0 failed |
+| Power BI DAX measures reconciled | 25 of 25 |
+| Superseded definitions resolved | 3 |
+| Denial-rate understatement found | 31.68% |
 | Governed net revenue | $114,211,972.92 |
 | Finance drift | 0.0% — certified |
 | Operations drift | 15.3% — blocked |
 | Commercial drift | 41.8% — blocked |
 
-Evidence: [pipeline summary](reports/pipeline-summary.json), [drift results](reports/metric-drift-results.json), [quality report](reports/data-quality-report.html), and [dbt execution log](logs/dbt-build.log).
+Evidence: [pipeline summary](reports/pipeline-summary.json), [DAX reconciliation](reports/dax-reconciliation-results.json), [quality report](reports/data-quality-report.html), and [dbt execution log](logs/dbt-build.log).
 
 ## Why this data
 
-The data represents a fictional orders, escrow, and finance organization. It is synthetic by design because KPI conflict is an organizational rules problem and no employer/customer data should be published. The committed Parquet dataset contains 218,655 related business records and is the exact input used by PostgreSQL and dbt.
+The mortgage component uses the CFPB's fixed 2017 nationwide HMDA all-records file. The pipeline selects 2.8 million positions systematically across all 14,285,496 published rows, preventing the outcome bias produced by taking a contiguous block. The archive is public, privacy-modified, and documented by the CFPB.
+
+The title, escrow, and finance component contains 218,655 deterministic fictional records because equivalent employer/customer operational data cannot be published. Together, the two sources provide a real public mortgage workload and a relational operational model suitable for metric-governance testing. See [HMDA source and selection](docs/hmda-source.md).
 
 The fixed seed and [SHA-256 manifest](data/manifests/raw-data-manifest.json) make every source file reproducible and auditable.
 
@@ -61,9 +69,9 @@ flowchart LR
 | File storage | Apache Parquet, Snappy compression |
 | Warehouse | PostgreSQL 14 |
 | Transformation | dbt Core 1.11, dbt-postgres |
-| Governance | Versioned JSON registry and threshold policies |
+| Governance | 25-metric registry, owners, approvals, change history, and thresholds |
 | Quality | Python gates, PostgreSQL constraints, dbt tests |
-| Reporting | HTML, JSON, Matplotlib |
+| Reporting | Power BI DAX definitions, HTML, JSON, Matplotlib |
 | Automation | Make, GitHub Actions |
 | Container option | Docker Compose |
 
@@ -79,6 +87,7 @@ docs/          architecture, catalog, testing, deployment, ADRs, runbooks
 logs/          sanitized real pipeline and dbt execution logs
 pipelines/     executable end-to-end orchestration
 registry/      governed KPI definitions and owners
+bi/            governed and superseded Power BI DAX measures
 reports/       generated quality, drift, and run evidence
 screenshots/   dashboard output produced by the pipeline
 scripts/       isolated local PostgreSQL lifecycle scripts
@@ -89,10 +98,11 @@ tests/         unit, integration, end-to-end, and failure-injection suites
 
 ## Run the complete project
 
-Prerequisites: Python 3.11+, PostgreSQL utilities, dbt with PostgreSQL adapter, and Make.
+Prerequisites: Python 3.11+, PostgreSQL utilities, dbt with PostgreSQL adapter, Make, and the official CFPB archive referenced in `docs/hmda-source.md`.
 
 ```bash
 make local-db-start
+make hmda
 make pipeline
 make integration-test
 make test
@@ -111,13 +121,9 @@ docker compose run --rm pipeline
 
 Change the local development password before exposing any service.
 
-## Metric definitions
+## Metric governance
 
-| Metric | Governed meaning | Grain | Owner |
-|---|---|---|---|
-| Net revenue | Posted recognized-revenue and refund transactions for closed orders | Date, region | Finance Analytics |
-| Closed orders | Canonically closed orders attributed to close date | Date, region | Operations Analytics |
-| Average turnaround | Calendar days from open through close; excludes open/cancelled orders | Date, region | Escrow Operations |
+The registry contains 17 HMDA metrics and eight title/escrow/finance metrics. Every definition has a version, owner, effective date, grain, and approval record. The three corrected definitions remain in the change history and the superseded DAX file for auditability.
 
 See the [full metric catalog](docs/metric-catalog.md) and machine-readable [registry](registry/metrics.json).
 
@@ -127,6 +133,9 @@ See the [full metric catalog](docs/metric-catalog.md) and machine-readable [regi
 - Primary/foreign keys and domain constraints
 - Pre-ingestion schema, uniqueness, relationship, and value checks
 - 15 dbt source/model tests
+- 15 pre-ingestion quality checks
+- 25 dbt-governed KPI outputs reconciled to 25 DAX measures
+- Three superseded formulas retained as audit evidence
 - Safe expression parser—no arbitrary functions or built-ins
 - Metric-specific absolute and relative drift thresholds
 - Failure injection proving duplicate orders block publication
@@ -143,11 +152,12 @@ See the [full metric catalog](docs/metric-catalog.md) and machine-readable [regi
 - [Deployment guide](docs/deployment-guide.md)
 - [Metric drift runbook](docs/runbooks/metric-drift.md)
 - [Interview explanation](docs/interview-explanation.md)
-- [Synthetic-data decision](docs/adrs/001-synthetic-domain-data.md)
+- [HMDA source and selection](docs/hmda-source.md)
+- [Synthetic operational-data decision](docs/adrs/001-synthetic-domain-data.md)
 
 ## Security and scope
 
-All entities are fictional. No FNF, employer, customer, or personal data is included. Secrets and the local database cluster are ignored. See [SECURITY.md](SECURITY.md).
+The HMDA records are public and modified by the CFPB to protect privacy. All title, escrow, and finance entities are fictional. No FNF, employer, customer, or private personal data is included. Large source files, secrets, and the local database cluster are ignored. See [SECURITY.md](SECURITY.md).
 
 The PostgreSQL/dbt pipeline was executed locally. Docker Compose is an alternative packaging path; the README does not claim that container path was executed on this machine.
 

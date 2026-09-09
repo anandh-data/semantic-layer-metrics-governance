@@ -31,6 +31,19 @@ def validate_raw(raw_dir: Path) -> list[CheckResult]:
         CheckResult("finance_transactions", "known_order", "pass" if finance.order_id.isin(orders.order_id).all() else "fail", int((~finance.order_id.isin(orders.order_id)).sum()), "0 orphaned"),
         CheckResult("finance_transactions", "usd_only", "pass" if finance.currency.eq("USD").all() else "fail", int((~finance.currency.eq("USD")).sum()), "0 non-USD"),
     ]
+    hmda_path = raw_dir / "hmda_applications.parquet"
+    if hmda_path.exists():
+        manifest = json.loads((raw_dir.parent / "manifests/hmda-data-manifest.json").read_text())
+        expected_hmda_rows = int(manifest["records_selected"])
+        hmda = pd.read_parquet(hmda_path, columns=["action_taken", "loan_type", "respondent_id", "state_code"])
+        results.extend([
+            CheckResult("hmda_applications", "row_count", "pass" if len(hmda) == expected_hmda_rows else "fail", len(hmda), f"= {expected_hmda_rows}"),
+            CheckResult("hmda_applications", "valid_action_taken", "pass" if hmda.action_taken.isin(range(1, 9)).all() else "fail", int((~hmda.action_taken.isin(range(1, 9))).sum()), "0 invalid"),
+            CheckResult("hmda_applications", "decided_population", "pass" if hmda.action_taken.isin([1, 2, 3]).any() else "fail", int(hmda.action_taken.isin([1, 2, 3]).sum()), "> 0"),
+            CheckResult("hmda_applications", "valid_loan_type", "pass" if hmda.loan_type.isin([1, 2, 3, 4]).all() else "fail", int((~hmda.loan_type.isin([1, 2, 3, 4])).sum()), "0 invalid"),
+            CheckResult("hmda_applications", "respondent_present", "pass" if hmda.respondent_id.ne("").all() else "fail", int(hmda.respondent_id.eq("").sum()), "0 missing"),
+            CheckResult("hmda_applications", "geographic_coverage", "pass" if hmda.state_code.nunique() >= 50 else "fail", int(hmda.state_code.nunique()), ">= 50 state/territory codes"),
+        ])
     return results
 
 

@@ -1,28 +1,13 @@
 # Metric catalog
 
-## Net revenue v1
+The machine-readable catalog in `registry/metrics.json` is authoritative. It contains 25 governed metrics: 17 mortgage-application measures sourced from public HMDA records and eight title, escrow, and finance measures sourced from the operational model.
 
-- Owner: Finance Analytics
-- Grain: metric date and region
-- Definition: recognized revenue ledger events plus posted refund events for canonically closed orders
-- Excludes: open/cancelled order value and unposted estimates
-- Source: `raw.finance_transactions`
-- dbt output: `analytics.metric_daily_performance.net_revenue`
+Every entry records its business name, owner, version, grain, effective date, calculation, and definition. Approval evidence is stored in `registry/approvals.json`; definition changes are stored in `registry/change-history.json`.
 
-## Closed orders v1
+## Corrected definitions
 
-- Owner: Operations Analytics
-- Grain: close date and region
-- Definition: count of orders whose canonical status is `closed`
-- Excludes: open and cancelled orders
-- Source: `raw.orders`
+- **Denial rate v2:** denied applications divided by applications with a final credit decision—originated, approved but not accepted, or denied. Withdrawals, incomplete files, purchased loans, and preapproval outcomes are excluded.
+- **Net revenue v2:** posted recognized-revenue and refund transactions, replacing the previous order-value estimate.
+- **Close rate v2:** closed orders divided by all orders, including cancelled orders in the population.
 
-## Average turnaround days v1
-
-- Owner: Escrow Operations
-- Grain: close date and region
-- Definition: average calendar days from opened date through closed date
-- Excludes: open and cancelled orders
-- Null policy: no value is published when there are no closed orders
-
-Meaning or grain changes require a new major definition. Corrections retain an audit note and a reproducible backfill plan.
+The superseded and corrected Power BI expressions remain in `bi/` so reviewers can trace each discrepancy and its resolution.

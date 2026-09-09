@@ -22,3 +22,15 @@ models:
         tests: [not_null, unique]
   - name: metric_daily_performance
     description: Governed daily metrics at date-region grain.
+  - name: stg_hmda_applications
+    description: Typed 2.8M-row analytical sample from the CFPB 2017 public HMDA file.
+    columns:
+      - name: action_taken
+        tests: [not_null]
+  - name: metric_governance_portfolio
+    description: One governed value for each approved mortgage and title operations KPI.
+    columns:
+      - name: metric_name
+        tests: [not_null, unique]
+      - name: metric_value
+        tests: [not_null]

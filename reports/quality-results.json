@@ -62,6 +62,48 @@
       "status": "pass",
       "observed": 0,
       "expectation": "0 non-USD"
+    },
+    {
+      "dataset": "hmda_applications",
+      "check": "row_count",
+      "status": "pass",
+      "observed": 2800000,
+      "expectation": "= 2800000"
+    },
+    {
+      "dataset": "hmda_applications",
+      "check": "valid_action_taken",
+      "status": "pass",
+      "observed": 0,
+      "expectation": "0 invalid"
+    },
+    {
+      "dataset": "hmda_applications",
+      "check": "decided_population",
+      "status": "pass",
+      "observed": 1913077,
+      "expectation": "> 0"
+    },
+    {
+      "dataset": "hmda_applications",
+      "check": "valid_loan_type",
+      "status": "pass",
+      "observed": 0,
+      "expectation": "0 invalid"
+    },
+    {
+      "dataset": "hmda_applications",
+      "check": "respondent_present",
+      "status": "pass",
+      "observed": 0,
+      "expectation": "0 missing"
+    },
+    {
+      "dataset": "hmda_applications",
+      "check": "geographic_coverage",
+      "status": "pass",
+      "observed": 54,
+      "expectation": ">= 50 state/territory codes"
     }
   ]
 }

@@ -2,7 +2,6 @@ version: 2
 sources:
   - name: raw
     schema: raw
-    loaded_at_field: source_updated_at
     tables:
       - name: orders
         columns:
@@ -28,3 +27,8 @@ sources:
                   arguments:
                     to: source('raw', 'orders')
                     field: order_id
+      - name: hmda_applications
+        loaded_at_field: null
+        columns:
+          - name: action_taken
+            tests: [not_null]
